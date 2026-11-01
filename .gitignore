@@ -1,0 +1,11 @@
+/versiones/
+/grafica/
+/a subir/
+/.vscode/
+
+AGENTS.md
+estructura.txt
+Generar arbol de archivos.bat
+__pycache__/
+*.pyc
+desktop.ini

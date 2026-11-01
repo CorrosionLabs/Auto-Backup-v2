@@ -25,7 +25,7 @@ It provides automatic and manual backups, independent project configurations, ba
 
 ## Getting Started
 
-Read the [User Guide (English / Español)](https://corrosionlabs.github.io/documentation/auto-backup-v2/)for instructions on configuring and using Auto Backup v2.
+Read the [User Guide (English / Español)](https://corrosionlabs.github.io/documentation/auto-backup-v2/) for instructions on configuring and using Auto Backup v2.
 
 ## Previous Version
 

@@ -1,3 +1,4 @@
+![Auto Backup v2](assets/cabe_github.jpg)
 # Auto Backup v2
 
 **Advanced backup management for Windows.**

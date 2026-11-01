@@ -25,13 +25,13 @@ It provides automatic and manual backups, independent project configurations, ba
 
 ## Getting Started
 
-Installation and usage instructions will be available in the upcoming multilingual tutorial.
+Read the [User Guide (English / Español)](tutorial/index.html) for instructions on configuring and using Auto Backup v2.
 
 ## Previous Version
 
-Auto Backup v2 builds upon the original Auto Backup application, offering more advanced project management, configuration, and monitoring features.
+Auto Backup v2 is the advanced evolution of the original application, offering expanded project management, backup monitoring, and configuration features.
 
-*Link to the original repository coming soon.*
+Explore the original [Auto Backup](https://github.com/CorrosionLabs/Auto-Backup).
 
 ## Author
 

@@ -8,6 +8,7 @@ import sys
 import threading
 import time
 import uuid
+import webbrowser
 import zipfile
 from datetime import datetime, timezone
 from ctypes import wintypes
@@ -21,8 +22,8 @@ from PIL import Image, ImageDraw, ImageTk
 from io import BytesIO
 
 
-APP_TITLE = "Auto Backup v2"
-APP_VERSION = "v2"
+APP_TITLE = "Auto Backup v2.1"
+APP_VERSION = "v2.1"
 LOGO_BASE64 = """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"""
 DEFAULT_INTERVAL_MIN = 5
 DEFAULT_MAX_BACKUPS = 10
@@ -104,6 +105,8 @@ class AutoBackupApp:
         else:
             self.status_var.set("Workspace not configured")
 
+        self.footer_logo_image = self.load_footer_logo(0.5)
+        self.footer_logo_hover_image = self.load_footer_logo(1.0)
         self.build_ui()
         self.tabview.configure(command=self.on_tab_changed)
         self.on_tab_changed("Backup")
@@ -131,6 +134,62 @@ class AutoBackupApp:
             font_path = font_root / font_name
             if font_path.is_file():
                 add_font(str(font_path), 0x10, None)
+
+    def load_footer_logo(self, opacity):
+        resource_root = Path(
+            getattr(sys, "_MEIPASS", Path(__file__).resolve().parent)
+        )
+        logo_path = resource_root / "assets" / "ico_120x30.png"
+        image = Image.open(logo_path).convert("RGBA")
+        image = image.resize((120, 30), Image.Resampling.LANCZOS)
+        alpha = image.getchannel("A").point(lambda value: int(value * opacity))
+        image.putalpha(alpha)
+        return ImageTk.PhotoImage(image)
+
+    def create_footer_logo(self, parent):
+        logo = ctk.CTkLabel(
+            parent,
+            image=self.footer_logo_image,
+            text="",
+            cursor="hand2"
+        )
+        logo.bind(
+            "<Button-1>",
+            lambda event: webbrowser.open("https://corrosionlabs.github.io/tools/")
+        )
+        logo.bind(
+            "<Enter>",
+            lambda event: logo.configure(image=self.footer_logo_hover_image)
+        )
+        logo.bind(
+            "<Leave>",
+            lambda event: logo.configure(image=self.footer_logo_image)
+        )
+        return logo
+
+    def create_documentation_link(self, parent):
+        link = ctk.CTkLabel(
+            parent,
+            text="Documentation",
+            text_color=COLOR_MUTED,
+            cursor="hand2",
+            font=ctk.CTkFont(family=FONT_LABEL, size=TEXT_SECONDARY)
+        )
+        link.bind(
+            "<Button-1>",
+            lambda event: webbrowser.open(
+                "https://corrosionlabs.github.io/documentation/auto-backup-v2/"
+            )
+        )
+        link.bind(
+            "<Enter>",
+            lambda event: link.configure(text_color=COLOR_TEXT_LIGHT)
+        )
+        link.bind(
+            "<Leave>",
+            lambda event: link.configure(text_color=COLOR_MUTED)
+        )
+        return link
 
     def build_ui(self):
         # Overall composition: dark Corrosion Labs header, light working area.
@@ -167,7 +226,7 @@ class AutoBackupApp:
 
         ctk.CTkLabel(
             title_row,
-            text="AUTO BACKUP v2",
+            text="AUTO BACKUP v2.1",
             text_color=COLOR_TEXT_LIGHT,
             anchor="w",
             font=ctk.CTkFont(family=FONT_LABEL, size=TEXT_TITLE, weight="bold")
@@ -477,12 +536,9 @@ class AutoBackupApp:
             font=ctk.CTkFont(family=FONT_LABEL, size=TEXT_INFO)
         ).grid(row=0, column=0, sticky="w", padx=(38, 0), pady=7)
 
-        ctk.CTkLabel(
-            footer,
-            text="CORROSION LABS",
-            text_color=COLOR_MUTED,
-            font=ctk.CTkFont(family=FONT_LABEL, size=TEXT_SECONDARY)
-        ).grid(row=0, column=1, sticky="e", padx=(0, 14), pady=7)
+        self.create_footer_logo(footer).grid(
+            row=0, column=1, sticky="e", padx=(0, 14), pady=7
+        )
 
         self.build_settings_tab(self.tabview.tab("Settings"))
 
@@ -635,7 +691,7 @@ class AutoBackupApp:
         title_row.grid(row=0, column=1, sticky="w")
         ctk.CTkLabel(
             title_row,
-            text="AUTO BACKUP v2",
+            text="AUTO BACKUP v2.1",
             text_color=COLOR_TEXT_LIGHT,
             anchor="w",
             font=ctk.CTkFont(family=FONT_LABEL, size=TEXT_TITLE, weight="bold")
@@ -858,12 +914,9 @@ class AutoBackupApp:
             anchor="w",
             font=ctk.CTkFont(family=FONT_LABEL, size=TEXT_INFO)
         ).grid(row=0, column=0, sticky="w", padx=(38, 0), pady=7)
-        ctk.CTkLabel(
-            status_bar,
-            text="CORROSION LABS",
-            text_color=COLOR_MUTED,
-            font=ctk.CTkFont(family=FONT_LABEL, size=TEXT_SECONDARY)
-        ).grid(row=0, column=1, sticky="e", padx=(0, 14), pady=7)
+        self.create_footer_logo(status_bar).grid(
+            row=0, column=1, sticky="e", padx=(0, 14), pady=7
+        )
 
         settings_tab = self.tabview.tab("Settings")
         settings_tab.grid_columnconfigure(0, weight=1)
@@ -992,6 +1045,9 @@ class AutoBackupApp:
             font=ctk.CTkFont(family=FONT_LABEL, size=TEXT_INFO)
         )
         self.uninstall_button.grid(row=3, column=0, sticky="e", padx=24, pady=0)
+        self.create_documentation_link(parent).grid(
+            row=4, column=0, sticky="e", padx=24, pady=(6, 0)
+        )
 
     def build_storage_tab(self, parent):
         parent.grid_columnconfigure(0, weight=1)
